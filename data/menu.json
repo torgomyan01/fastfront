@@ -1,0 +1,12 @@
+[
+  {
+    "icon": "<i class=\"fa-solid fa-house me-2\"></i>",
+    "name" : "Home",
+    "url": "#home"
+  },
+  {
+    "icon": "<i class=\"fa-solid fa-house me-2\"></i>",
+    "name" : "Library",
+    "url": "#library"
+  }
+]

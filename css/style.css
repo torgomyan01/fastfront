@@ -1,0 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  box-sizing: border-box;
+  text-decoration: none !important;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-width: 1024px) {
+  html {
+    font-size: 15px;
+  }
+}
+@media (max-width: 992px) {
+  html {
+    font-size: 14px;
+  }
+}
+@media (max-width: 768px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */
