@@ -8,5 +8,10 @@
     "icon": "<i class=\"fa-solid fa-house me-2\"></i>",
     "name" : "Library",
     "url": "#library"
+  },
+  {
+    "icon": "<i class=\"fa-solid fa-house me-2\"></i>",
+    "name" : "Components",
+    "url": "#library"
   }
 ]

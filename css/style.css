@@ -26,5 +26,8 @@ html {
     font-size: 12px;
   }
 }
+.trans {
+  transition: 0.3s;
+}
 
 /*# sourceMappingURL=style.css.map */

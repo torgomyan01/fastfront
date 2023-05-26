@@ -236,19 +236,26 @@ allElem.forEach((item) => {
         }
 
         if(className.includes('hover')){
-            const hoverName = className.replace(/hover:/g, '');
-            const newHoverClassName = `${hoverName}_${randomText()}`;
-
+            const hoverName = className.replace(/hover:/g, '').replace(/[\]\[]/g, '').split(',');
+            const newHoverClassName = `${randomText()}_fastfront_${randomText()}`;
             const {checkInp, percent} = {
                 checkInp: className.includes('!') ? '!important' : '',
                 percent: className.includes('%') ? '%' : 'rem',
             }
 
-            const typeHover = classTypes.find((classType) => classType.minClass === `${hoverName.split('-')[0]}-`);
-            if(typeHover){
-                hovers.innerHTML = `${hovers.innerHTML} .${newHoverClassName}:hover{ ${typeHover.styleName}: ${printStyle(typeHover, className, percent, checkInp, hoverName.split('-')[1])}}`;
-                item.classList.add(newHoverClassName)
+            let hoverStyle = `.${newHoverClassName}:hover{`
+            if(hoverName){
+                hoverName.forEach((className) => {
+                    const typeHover = classTypes.find((classType) => classType.minClass === `${className.split('-')[0]}-`);
+                    if(typeHover){
+                        hoverStyle += `${typeHover.styleName}: ${printStyle(typeHover, className, percent, checkInp, className.split('-')[1])};`
+                    }
+                })
             }
+            hoverStyle += '}';
+            hovers.innerHTML = `${hovers.innerHTML} ${hoverStyle}`;
+            item.classList.add(newHoverClassName)
+
         }
 
     })
