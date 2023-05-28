@@ -1,144 +1,7 @@
-const constants = {
-    404: 'Please check URL data file'
-}
-
 const randomText = () => (Math.random() + 1).toString(36).substring(7);
-
-const getComponent = (url, callBack) => {
-    const xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", url, false );
-    xmlHttp.send( null );
-
-    switch (xmlHttp.status){
-        case 200:
-            callBack(xmlHttp.responseText);
-            break;
-        case 404:
-            callBack(constants["404"]);
-            break;
-    }
-}
-
-class dataFor {
-    static data = document.querySelectorAll('datafor');
-
-    static startGetData(){
-        this.data.forEach((item) => {
-            const src = item.getAttribute('src');
-            const itemHTML = item.innerHTML;
-            let newHTML = '';
-
-            getComponent(src, function (res){
-                if(res === constants["404"]){
-                    console.error(res);
-                } else {
-                    const json = JSON.parse(res);
-                    json.forEach((jsonItem) => {
-                        let html = itemHTML;
-                        Object.keys(jsonItem).map((keyObj) => {
-                            const reg = new RegExp(`{{${keyObj}}}`, 'g');
-                            html = html.replace(reg, jsonItem[keyObj]);
-                        })
-                        newHTML += html;
-                    })
-                    item.outerHTML = newHTML;
-                }
-            })
-        })
-    }
-}
-
-dataFor.startGetData()
-
-
-class forComponent {
-    static scrName = '<script>';
-    static scrEndName = '</script>';
-
-    static startCovertComponent(){
-        const components = document.querySelectorAll('component');
-        components.forEach((component, index) => {
-            const src = component.getAttribute('src');
-
-            const props = component.getAttribute('props');
-            if(props) {
-                const propsArray = props.replace(/[{,\n}]/g, '').split(';');
-                getComponent(src, (res) => {
-                    this.addScript(res, (HTML) => {
-                        let ConvertedHtml = HTML;
-                        propsArray.map((_props) => {
-                            const objProps = _props.split(':');
-                            const key = objProps[0].replace(/ /g, '');
-                            const val = objProps[1];
-                            const reg = new RegExp(`{{${key}}}`, 'g');
-                            ConvertedHtml = ConvertedHtml.replace(reg, val === `''` ? `` : val);
-                        })
-                        component.outerHTML = `<!---- THIS COMPONENT URL ${src} -->${ConvertedHtml}`;
-                    });
-                })
-            } else {
-                getComponent(src, (res) => {
-                    this.addScript(res, (HTML) => {
-                        component.outerHTML = `<!---- THIS COMPONENT URL ${src} -->${HTML}`;
-                    });
-                })
-            }
-
-
-            if(components.length > 0 && index === components.length - 1){
-                this.startCovertComponent();
-                this.startConvertFor();
-            }
-        })
-    }
-
-    static addScript(res, calBack){
-        if(res.includes(this.scrName)){
-            const startIndexOfScript = res.indexOf(this.scrName);
-            const endScript = res.indexOf(this.scrEndName);
-            const cropString = res.slice(startIndexOfScript + this.scrName.length, endScript);
-
-            const newScript = document.createElement('script');
-            newScript.setAttribute('defer', 'true');
-            newScript.innerHTML = cropString;
-            document.body.appendChild(newScript);
-
-            calBack(res.slice(0, startIndexOfScript));
-        } else {
-            calBack(res);
-        }
-    }
-
-    static startConvertFor(){
-        const forTag = document.querySelectorAll('for');
-        forTag.forEach((item) => {
-            let html = item.innerHTML;
-            const count = +item.getAttribute('count');
-            const data = item.dataset;
-
-            if(count){
-                let _html = '';
-                for (let i = 0; i < count; i++){
-                    let _htm = html;
-                    for (let key in data){
-                        const keyArr = data[key].split(',');
-                        const reg = new RegExp(`{{${key}}}`, 'g');
-                        _htm =  _htm.replace(reg, keyArr[i] === `''` ? '' : keyArr[i]);
-                    }
-                    _html += _htm + '\n';
-                }
-                item.outerHTML = _html;
-            }
-        })
-    }
-}
-
-forComponent.startCovertComponent();
-forComponent.startConvertFor();
 
 console.time();
 
-// FOR COMPONENTS
 const costs = {
     bgBlur: 'bgBlur-',
     color: 'c-',
@@ -166,7 +29,7 @@ const classTypes = [
     {minClass: 'minh-', styleName: 'min-height'},
     {minClass: 'w-', styleName: 'width'},
     {minClass: 'mw-', styleName: 'max-width'},
-    {minClass: 'minw-', styleName: 'min-width'},
+    {minClass: 'minW-', styleName: 'min-width'},
     // MARGIN
     {minClass: 'me-', styleName: 'margin-right'},
     {minClass: 'ms-', styleName: 'margin-left'},
