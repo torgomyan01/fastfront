@@ -148,6 +148,7 @@ const costs = {
     opacity: 'op-',
     borderColor: 'bc-',
     paddingY: 'py-',
+    transition: 'trans-',
 }
 const allElem = document.querySelectorAll('*');
 const head = document.head;
@@ -196,6 +197,7 @@ const classTypes = [
     {minClass: 'fw-', styleName: 'font-weight'},
     {minClass: costs.borderColor, styleName: 'border-color'},
     {minClass: costs.opacity, styleName: 'opacity'},
+    {minClass: costs.transition, styleName: 'transition'},
     {minClass: costs.zIndex, styleName: 'z-index'},
     {minClass: costs.color, styleName: 'color'},
     {minClass: costs.bgc, styleName: 'background-color'},
@@ -309,6 +311,8 @@ function printStyle(type, className, percent, checkInp, classCount) {
                 return `${_colorBorder} ${checkInp}`;
             }
             return '';
+        case costs.transition:
+            return `${classCount}ms`;
         case costs.bgBlur:
             return `blur(${percentOrRem})`;
         case costs.paddingY:

@@ -30,4 +30,9 @@ html {
   transition: 0.3s;
 }
 
+pre[class*=language-].line-numbers {
+  padding-left: 0 !important;
+  padding-bottom: 0 !important;
+}
+
 /*# sourceMappingURL=style.css.map */

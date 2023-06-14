@@ -1,13 +1,23 @@
 [
   {
     "icon": "<i class=\"fa-solid fa-house me-2\"></i>",
-    "name" : "Home",
+    "name" : "Get Started",
     "url": "#home"
   },
   {
     "icon": "<i class=\"fa-solid fa-house me-2\"></i>",
     "name" : "Library",
     "url": "#library"
+  },
+  {
+    "icon": "<i class=\"fa-solid fa-house me-2\"></i>",
+    "name" : "Introduction",
+    "url": "#Introduction"
+  },
+  {
+    "icon": "<i class=\"fa-solid fa-house me-2\"></i>",
+    "name" : "Download",
+    "url": "#Download"
   },
   {
     "icon": "<i class=\"fa-solid fa-house me-2\"></i>",
