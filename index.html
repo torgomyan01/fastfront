@@ -19,6 +19,7 @@
           white: '#FFF',
           black: '#383838',
           yellow: '#d26b03',
+          blue: '#045dc5'
       }
   </script>
   <title>FastFront</title>
@@ -30,14 +31,16 @@
     <a href="/">
       <img src="images/logo.svg" alt="Logo site">
     </a>
-    <label class="w-100 mw-349 h-40 br-6 position-relative border overflow-hidden">
-      <input type="text" class="border-0 w-100 h-100 ps-3" placeholder="Search...">
-      <i class="fa-solid fa-magnifying-glass position-absolute right-10 top-12"></i>
-    </label>
     <div class="d-flex justify-content-end align-items-center">
-      <a href="https://github.com/torgomyan01/fastfront" target="_blank">
-        <i class="fa-brands fa-github c-black fs-20"></i>
-      </a>
+      <label class="w-100 mw-349 h-40 br-6 position-relative border overflow-hidden me-30">
+        <input type="text" class="border-0 w-100 h-100 ps-3" placeholder="Search...">
+        <i class="fa-solid fa-magnifying-glass position-absolute right-10 top-12"></i>
+      </label>
+      <div class="d-flex justify-content-end align-items-center">
+        <a href="https://github.com/torgomyan01/fastfront" target="_blank">
+          <i class="fa-brands fa-github c-black fs-20"></i>
+        </a>
+      </div>
     </div>
   </div>
 </nav>
@@ -45,55 +48,59 @@
 <div class="container h-500">
   <div class="row h-100">
     <div class="col-3 border-end h-100 pt-20">
-        <datafor src="data/menu.json">
-          <div class="border-bottom h-40 d-flex justify-content-start align-items-center">
-            <a href="{{url}}" class="c-black hover:[c-yellow]">
-              {{icon}}
-              {{name}}
-            </a>
-          </div>
-        </datafor>
+      <datafor src="data/menu.json">
+        <div class="border-bottom h-40 d-flex justify-content-start align-items-center">
+          <a href="#get-started" class="c-black hover:[c-yellow]">
+            <i class="fa-solid fa-house me-2"></i>
+            Get Started
+          </a>
+        </div>
+      </datafor>
     </div>
     <div class="col-9 pt-20">
       <div>
-        <a href="#" class="c-black">
-          <h1 class="hover:[bgc-yellow,c-white] trans-300">#Get Start</h1>
-        </a>
+        <div class="c-black" id="get-started">
+          <h1 class="trans-300">#Get Start</h1>
+        </div>
+
+
         <p class="c-black">
-          Download Bootstrap to get the compiled CSS and JavaScript, source code, or include it with your favorite package managers like npm, RubyGems, and more.
+          The basis of FastFront's work is to speed up the work of FrontEnd programmers and have a faster result.
         </p>
-        <pre>
-          <code class="language-json">
-            <xmp>
-              [
-                {
-                  "icon": "<i class=\"fa-solid fa-house me-2\"></i>",
-                  "name" : "Get Started",
-                  "url": "#home"
-                },
-                {
-                  "icon": "<i class=\"fa-solid fa-house me-2\"></i>",
-                  "name" : "Library",
-                  "url": "#library"
-                },
-              ]
-            </xmp>
-          </code>
-        </pre>
-        <p>
-          {{url}}
+        <p class="c-black">
+          It has already been tested and the result is already visible. For example, if we work normally for 1 hour, it
+          speeds up our work by 40%.
         </p>
+        <p class="c-black">
+          You just have to try it :)
+        </p>
+        <p class="c-black">
+          Also, we have to write less CSS, which will contribute to the fast loading of the site, because it works more
+          dynamically and there is no need to write CSS manually.
+        </p>
+        <p class="c-black fw-bold">
+            Now we will present a small example
+        </p>
+          <div class="row justify-content-between">
+              <div class="col-6">
+                  <div class="!bc-white !bc-md-yellow c-white c-md-yellow fs-30 border w-100 h-200 p-30 br-30 bgc-blue bgc-md-white hover:[bgc-yellow,c-white] trans-300 d-flex justify-content-center align-items-center">
+                        Example
+                  </div>
+              </div>
+              <div class="col-6">
+                  <div class="!bc-white !bc-md-yellow c-white c-md-yellow fs-30 border w-100 h-200 p-30 br-30 bgc-blue bgc-md-white hover:[bgc-yellow,c-white,h-180] trans-300 d-flex justify-content-center align-items-center">
+                        Example Two
+                  </div>
+              </div>
+          </div>
         <pre>
           <code class="language-html">
             <xmp>
-              <datafor src="data/menu.json">
-                <div class="border-bottom h-40 d-flex justify-content-start align-items-center">
-                  <a href="{{url}}" class="c-black hover:[c-yellow]">
-                    {{icon}}
-                    {{name}}
-                  </a>
-                </div>
-              </datafor>
+              <div class="col-6">
+                  <div class="!bc-white !bc-md-yellow c-white c-md-yellow fs-30 border w-100 h-200 p-30 br-30 bgc-blue bgc-md-white hover:[bgc-yellow,c-white] trans-300 d-flex justify-content-center align-items-center">
+                        Example
+                  </div>
+              </div>
             </xmp>
           </code>
         </pre>

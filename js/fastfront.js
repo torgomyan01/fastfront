@@ -1,142 +1,14 @@
-const constants = {
-    404: 'Please check URL data file'
+console.time();
+const colors = {
+    white: '#FFFFFF',
+    black: '#000',
+    textGrey: '#AEB5BC',
+    purple: '#833AB4',
+    pink: '#C13584',
 }
+
 
 const randomText = () => (Math.random() + 1).toString(36).substring(7);
-
-const getComponent = (url, callBack) => {
-    const xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", url, false );
-    xmlHttp.send( null );
-
-    switch (xmlHttp.status){
-        case 200:
-            callBack(xmlHttp.responseText);
-            break;
-        case 404:
-            callBack(constants["404"]);
-            break;
-    }
-}
-
-class dataFor {
-    static data = document.querySelectorAll('datafor');
-
-    static startGetData(){
-        this.data.forEach((item) => {
-            const src = item.getAttribute('src');
-            const itemHTML = item.innerHTML;
-            let newHTML = '';
-
-            getComponent(src, function (res){
-                if(res === constants["404"]){
-                    console.error(res);
-                } else {
-                    const json = JSON.parse(res);
-                    json.forEach((jsonItem) => {
-                        let html = itemHTML;
-                        Object.keys(jsonItem).map((keyObj) => {
-                            const reg = new RegExp(`{{${keyObj}}}`, 'g');
-                            html = html.replace(reg, jsonItem[keyObj]);
-                        })
-                        newHTML += html;
-                    })
-                    item.outerHTML = newHTML;
-                }
-            })
-        })
-    }
-}
-
-dataFor.startGetData()
-
-
-class forComponent {
-    static scrName = '<script>';
-    static scrEndName = '</script>';
-
-    static startCovertComponent(){
-        const components = document.querySelectorAll('component');
-        components.forEach((component, index) => {
-            const src = component.getAttribute('src');
-
-            const props = component.getAttribute('props');
-            if(props) {
-                const propsArray = props.replace(/[{,\n}]/g, '').split(';');
-                getComponent(src, (res) => {
-                    this.addScript(res, (HTML) => {
-                        let ConvertedHtml = HTML;
-                        propsArray.map((_props) => {
-                            const objProps = _props.split(':');
-                            const key = objProps[0].replace(/ /g, '');
-                            const val = objProps[1];
-                            const reg = new RegExp(`{{${key}}}`, 'g');
-                            ConvertedHtml = ConvertedHtml.replace(reg, val === `''` ? `` : val);
-                        })
-                        component.outerHTML = `<!---- THIS COMPONENT URL ${src} -->${ConvertedHtml}`;
-                    });
-                })
-            } else {
-                getComponent(src, (res) => {
-                    this.addScript(res, (HTML) => {
-                        component.outerHTML = `<!---- THIS COMPONENT URL ${src} -->${HTML}`;
-                    });
-                })
-            }
-
-
-            if(components.length > 0 && index === components.length - 1){
-                this.startCovertComponent();
-                this.startConvertFor();
-            }
-        })
-    }
-
-    static addScript(res, calBack){
-        if(res.includes(this.scrName)){
-            const startIndexOfScript = res.indexOf(this.scrName);
-            const endScript = res.indexOf(this.scrEndName);
-            const cropString = res.slice(startIndexOfScript + this.scrName.length, endScript);
-
-            const newScript = document.createElement('script');
-            newScript.setAttribute('defer', 'true');
-            newScript.innerHTML = cropString;
-            document.body.appendChild(newScript);
-
-            calBack(res.slice(0, startIndexOfScript));
-        } else {
-            calBack(res);
-        }
-    }
-
-    static startConvertFor(){
-        const forTag = document.querySelectorAll('for');
-        forTag.forEach((item) => {
-            let html = item.innerHTML;
-            const count = +item.getAttribute('count');
-            const data = item.dataset;
-
-            if(count){
-                let _html = '';
-                for (let i = 0; i < count; i++){
-                    let _htm = html;
-                    for (let key in data){
-                        const keyArr = data[key].split(',');
-                        const reg = new RegExp(`{{${key}}}`, 'g');
-                        _htm =  _htm.replace(reg, keyArr[i] === `''` ? '' : keyArr[i]);
-                    }
-                    _html += _htm + '\n';
-                }
-                item.outerHTML = _html;
-            }
-        })
-    }
-}
-
-forComponent.startCovertComponent();
-forComponent.startConvertFor();
-
-console.time();
 
 // FOR COMPONENTS
 const costs = {
@@ -148,7 +20,8 @@ const costs = {
     opacity: 'op-',
     borderColor: 'bc-',
     paddingY: 'py-',
-    transition: 'trans-',
+    flexGap: 'gap-',
+    colPercent: 'colPercent-',
 }
 const allElem = document.querySelectorAll('*');
 const head = document.head;
@@ -197,11 +70,12 @@ const classTypes = [
     {minClass: 'fw-', styleName: 'font-weight'},
     {minClass: costs.borderColor, styleName: 'border-color'},
     {minClass: costs.opacity, styleName: 'opacity'},
-    {minClass: costs.transition, styleName: 'transition'},
     {minClass: costs.zIndex, styleName: 'z-index'},
     {minClass: costs.color, styleName: 'color'},
     {minClass: costs.bgc, styleName: 'background-color'},
     {minClass: costs.bgBlur, styleName: 'backdrop-filter'},
+    {minClass: costs.flexGap, styleName: 'gap'},
+    {minClass: costs.colPercent, styleName: 'width'},
 ]
 
 const oldClasses = [];
@@ -311,8 +185,6 @@ function printStyle(type, className, percent, checkInp, classCount) {
                 return `${_colorBorder} ${checkInp}`;
             }
             return '';
-        case costs.transition:
-            return `${classCount}ms`;
         case costs.bgBlur:
             return `blur(${percentOrRem})`;
         case costs.paddingY:
@@ -321,6 +193,8 @@ function printStyle(type, className, percent, checkInp, classCount) {
             return classCount;
         case costs.opacity:
             return +classCount / 10;
+        case costs.colPercent:
+            return `${classCount}%`;
         default:
             return `${percentOrRem}`;
     }
