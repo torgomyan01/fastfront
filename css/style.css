@@ -9,6 +9,9 @@
 html {
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
 }
 
 @media (max-width: 1024px) {
