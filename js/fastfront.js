@@ -12,7 +12,8 @@ const colors = {
     black: '#232323',
     green: '#2E9F65',
     red: '#EB5757',
-    yellow: '#FFA10A'
+    yellow: '#FFA10A',
+    blue: '#2e62fa'
 }
 
 
@@ -35,7 +36,7 @@ Object.keys(colors).forEach((key) => {
 })
 
 
-const randomText = () => (Math.random() + 1).toString(36).substring(7);
+const randomText = () => (Math.random() + 1).toString(36).substring(7).replace(/[0-9]/g, '');
 
 // FOR COMPONENTS
 const costs = {
@@ -160,19 +161,40 @@ function startConvertingClasses(className, item){
             percent: className.includes('%') ? '%' : 'rem',
         }
 
+
         let hoverStyle = `.${newHoverClassName}:hover{`
         if(hoverName){
             hoverName.forEach((className) => {
-                const typeHover = classTypes.find((classType) => classType.minClass === `${className.split('-')[0]}-`);
-                if(typeHover){
-                    hoverStyle += `${typeHover.styleName}: ${printStyle(typeHover, className, percent, checkInp, className.split('-')[1])};`
+                const colorLength = className.split('-');
+
+                if(className.includes('c-') && colorLength.length === 3){
+                    hoverStyle += `
+                        ${checkType(colorLength[0] + '-')}: ${colour(colors[colorLength[1]], +colorLength[2] / 100)} ;
+                    `
+                } else {
+                    const typeHover = classTypes.find((classType) => classType.minClass === `${className.split('-')[0]}-`);
+                    if(typeHover){
+                        hoverStyle += `${typeHover.styleName}: ${printStyle(typeHover, className, percent, checkInp, className.split('-')[1])};`
+                    }
                 }
+
+
             })
         }
+
         hoverStyle += '}';
         hovers.innerHTML = `${hovers.innerHTML} ${hoverStyle}`;
         item.classList.add(newHoverClassName)
 
+    }
+}
+
+function checkType(type){
+    switch (type){
+        case costs.color:
+            return 'color';
+        case costs.bgc:
+            return 'background-color'
     }
 }
 
@@ -272,11 +294,11 @@ class ConvertFlex {
 
         const styles = flexString.slice(5).split('-');
 
-        let result = '\ndisplay: flex;\n';
+        let result = 'display: flex;';
 
         styles.forEach(style => {
             if (flexMappings[style]) {
-                result += `  ${flexMappings[style]}\n`;
+                result += `  ${flexMappings[style]}`;
             } else {
                 result += `  /* Unknown shorthand: ${style} */\n`;
             }
@@ -350,14 +372,6 @@ function startWorkingFlex(className){
     }
 }
 
-
-const elm = document.getElementById('sssss');
-setTimeout(() => {
-    elm.classList.add('pb-10')
-    elm.classList.add('mb-20')
-}, 2000)
-
-
 const targetElement = document.body;
 
 // Callback ֆունկցիա՝ փոփոխությունների համար
@@ -366,7 +380,6 @@ const callback = (mutationsList) => {
         if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
             // Նշված է թե որ էլեմենտի վրա է class փոփոխվել
             const changedElement = mutation.target;
-            console.log('Changed element:', changedElement);
 
             // Ստուգում ենք, թե ինչ class է ավելացվել կամ հեռացվել
             const classList = changedElement.className.split(/\s+/);
@@ -414,8 +427,6 @@ function startAppend(){
     head.appendChild(style);
     head.appendChild(medias);
     head.appendChild(hovers);
-
-    console.log(style.innerHTML, medias.innerHTML, hovers.innerHTML)
 }
 
 console.timeEnd()

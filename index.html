@@ -38,23 +38,27 @@
   </div>
 </nav>
 
-<div class="container h-500">
+<div class="container mb-200">
   <div class="row h-100">
-    <div class="col-3 border-end h-100 pt-20">
-        <div class="border-bottom h-40 d-flex justify-content-start align-items-center">
-          <a href="#get-started" class="c-black hover:[c-yellow]">
-            <i class="fa-solid fa-house me-2"></i>
-            Get Started
-          </a>
-        </div>
+    <div class="col-3 border-end h-100 pt-20 position-sticky top-0">
+      <div class="border-bottom h-40 flex-c-jfs">
+        <a href="#get-started" class="c-black w-100 hover:[c-blue]">
+          <i class="fa-solid fa-house me-2"></i>
+          Get Started
+        </a>
+      </div>
+      <div class="border-bottom h-40 flex-c-jfs">
+        <a href="#flex" class="c-black w-100 hover:[c-blue]">
+          <i class="fa-solid fa-house me-2"></i>
+          Flex
+        </a>
+      </div>
     </div>
     <div class="col-9 pt-20">
       <div>
         <div class="c-black" id="get-started">
           <h1 class="trans-300">#Get Start</h1>
         </div>
-
-
         <p class="c-black">
           The basis of FastFront's work is to speed up the work of FrontEnd programmers and have a faster result.
         </p>
@@ -70,31 +74,80 @@
           dynamically and there is no need to write CSS manually.
         </p>
         <p class="c-black fw-bold">
-            Now we will present a small example
+          Now we will present a small example
         </p>
-          <div class="row justify-content-between">
-              <div class="col-6">
-                  <div class="!bc-white !bc-md-yellow c-white c-md-yellow fs-30 border w-100 h-200 p-30 br-30 bgc-blue bgc-md-white hover:[bgc-yellow,c-white] trans-300 d-flex justify-content-center align-items-center">
-                        Example
-                  </div>
-              </div>
-              <div class="col-6">
-                  <div class="!bc-white !bc-md-yellow c-white c-md-yellow fs-30 border w-100 h-200 p-30 br-30 bgc-blue bgc-md-white hover:[bgc-yellow,c-white,h-180] trans-300 d-flex justify-content-center align-items-center">
-                        Example Two
-                  </div>
-              </div>
+        <div class="row justify-content-between">
+          <div class="col-6">
+            <div
+                class="!bc-white !bc-md-yellow c-white c-md-yellow fs-30 border w-100 h-200 p-30 br-30 bgc-blue bgc-md-white hover:[bgc-yellow,c-white] trans-300 d-flex justify-content-center align-items-center">
+              Example
+            </div>
           </div>
+          <div class="col-6">
+            <div
+                class="!bc-white !bc-md-yellow c-white c-md-yellow fs-30 border w-100 h-200 p-30 br-30 bgc-blue bgc-md-white hover:[bgc-yellow,c-white,h-180] trans-300 d-flex justify-content-center align-items-center">
+              Example Two
+            </div>
+          </div>
+        </div>
         <pre>
           <code class="language-html">
             <xmp>
               <div class="col-6">
-                  <div class="!bc-white !bc-md-yellow c-white c-md-yellow fs-30 border w-100 h-200 p-30 br-30 bgc-blue bgc-md-white hover:[bgc-yellow,c-white] trans-300 d-flex justify-content-center align-items-center">
+                  <div
+                      class="!bc-white !bc-md-yellow c-white c-md-yellow fs-30 border w-100 h-200 p-30 br-30 bgc-blue bgc-md-white hover:[bgc-yellow,c-white] trans-300 d-flex justify-content-center align-items-center">
                         Example
                   </div>
               </div>
             </xmp>
           </code>
         </pre>
+
+
+        <div class="c-black mt-100" id="flex">
+          <h1 class="trans-300">#Flex</h1>
+          <p>
+            Here we should pay attention to the fact that we have reduced the values of Flex, which will help us to
+            write shorter code, which is a great result.
+          </p>
+        </div>
+
+        <div class="mt-4">
+          <ul>
+            <li><b>sb</b> => justify-content: space-between;</li>
+            <li><b>s</b> -> align-items: start;</li>
+            <li><b>c</b> -> align-items: center;</li>
+            <li><b>se</b> -> justify-content: space-evenly;</li>
+            <li><b>sa</b> -> justify-content: space-around;</li>
+            <li><b>fs</b> -> align-items: flex-start;</li>
+            <li><b>fe</b> -> align-items: flex-end;</li>
+            <li><b>jc</b> -> justify-content: center;</li>
+            <li><b>jfs</b> -> justify-content: flex-start;</li>
+            <li><b>jfe</b> -> justify-content: flex-end;</li>
+            <li><b>as</b> -> align-items: stretch;</li>
+            <li><b>ae</b> -> align-items: end</li>
+          </ul>
+          <div class="ps-20 mt-4">
+            <h4>Example</h4>
+            <div class="row mt-4">
+              <div class="col-3">
+                <div class="w-100 border br-20 flex-s-jfs flex-column">
+                  <img src="images/image-example-fastfront.png" alt="image-example-fastfront" height="500" width="500"
+                       class="w-100 h-auto br-20 roundLeftBottom-0 roundRightBottom-0">
+                  <div class="p-10">
+                    <h5>Title</h5>
+                    <p class="fs-15 c-black-500 lh-18">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aut commodi consequatur
+                    </p>
+                    <div class="flex-c-jfe">
+                      <span class="cursor-pointer fs-14">See More</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
