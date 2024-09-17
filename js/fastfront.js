@@ -2,8 +2,11 @@ console.time();
 // CREATING STYLE TAGS
 const colorsHead = document.createElement('STYLE');
 const style = document.createElement('STYLE');
+    style.id = 'styles';
 const medias = document.createElement('STYLE');
+    medias.id = 'media';
 const hovers = document.createElement('STYLE');
+    hovers.id = 'hovers';
 
 
 const colors = {
@@ -29,8 +32,8 @@ Object.keys(colors).forEach((key) => {
         if(index){
             const count = index * 100;
             const newCey =  `${key}-${count}`;
-            colorsHead.innerHTML = `${colorsHead.innerHTML} .c-${newCey} {color: ${colour(color, index)} !important}`;
-            colorsHead.innerHTML = `${colorsHead.innerHTML} .bgc-${newCey} {background-color: ${colour(color, index)} !important}`;
+            colorsHead.innerHTML = `${colorsHead.innerHTML} .c-${newCey} {color: ${colour(color, index)}}`;
+            colorsHead.innerHTML = `${colorsHead.innerHTML} .bgc-${newCey} {background-color: ${colour(color, index)}}`;
         }
     })
 })
@@ -136,9 +139,53 @@ allElem.forEach((item) => {
 
 
 function startConvertingClasses(className, item){
+    if(className.includes('hover')){
+        const startIndex = className.indexOf('child:')
+        const endIndex = className.indexOf(']]');
+
+        const childValue = className.slice(startIndex, endIndex + 1);
+        const hoverName = className.replace(childValue + ']', '').replace(/hover:/g, '').replace(/[\]\[]/g, '').split(',');
+        const newHoverClassName = `${randomText()}_fastfront_${randomText()}`;
+        const {checkInp, percent} = {
+            checkInp: className.includes('!') ? '!important' : '',
+            percent: className.includes('%') ? '%' : 'rem',
+        }
+        startChildHover(className, item)
+
+        let hoverStyle = `.${newHoverClassName}:hover{`
+
+        if(hoverName){
+            hoverName.forEach((className) => {
+                if(!className.includes('child:')){
+                    const colorLength = className.split('-');
+
+                    if(colorLength.length === 3 && (className.includes('c-')  || className.includes('bgc-'))){
+                        hoverStyle += `
+                        ${checkType(colorLength[0] + '-')}: ${colour(colors[colorLength[1]], +colorLength[2] / 100)} ;
+                    `
+                    } else {
+                        const typeHover = classTypes.find((classType) => classType.minClass === `${className.split('-')[0]}-`);
+                        if(typeHover){
+                            hoverStyle += `${typeHover.styleName}: ${printStyle(typeHover, className, percent, checkInp, className.split('-')[1])};`
+                        }
+                    }
+                }
+
+            })
+        }
+
+        hoverStyle += '}';
+        hovers.innerHTML = `${hovers.innerHTML} ${hoverStyle}`;
+        item.classList.add(newHoverClassName)
+        item.classList.remove(className)
+
+    }
+
+
     const checkingImportant = chekWork(className);
     const type = classTypes.find((classType) => !className.indexOf(checkingImportant + classType.minClass) && !oldClasses.includes(className));
-    if (type) {
+
+    if (type && !className.includes('hover:')) {
         const {checkInp, percent, newClassNem} = {
             checkInp: className.includes('!') ? '!important' : '',
             percent: className.includes('%') ? '%' : 'rem',
@@ -153,39 +200,64 @@ function startConvertingClasses(className, item){
         }
     }
 
-    if(className.includes('hover')){
-        const hoverName = className.replace(/hover:/g, '').replace(/[\]\[]/g, '').split(',');
+}
+
+
+function startChildHover(className, item){
+    const classArray = className.replace(/hover:/g, '');
+    const startIndex = classArray.indexOf('child:')
+    const endIndex = classArray.indexOf(']]');
+    const checkingImportant = chekWork(classArray);
+
+    const childValue = classArray.slice(startIndex, endIndex + 1).replace('child:[', '').split('|');
+
+    if(childValue.length){
         const newHoverClassName = `${randomText()}_fastfront_${randomText()}`;
-        const {checkInp, percent} = {
-            checkInp: className.includes('!') ? '!important' : '',
-            percent: className.includes('%') ? '%' : 'rem',
-        }
 
 
-        let hoverStyle = `.${newHoverClassName}:hover{`
-        if(hoverName){
-            hoverName.forEach((className) => {
-                const colorLength = className.split('-');
+        childValue.forEach((classValue) => {
+            const splitSelectorValue = classValue.split(':');
+            const getValues = splitSelectorValue[1]?.replace('[', '').replace(']', '');
 
-                if(className.includes('c-') && colorLength.length === 3){
-                    hoverStyle += `
-                        ${checkType(colorLength[0] + '-')}: ${colour(colors[colorLength[1]], +colorLength[2] / 100)} ;
-                    `
-                } else {
-                    const typeHover = classTypes.find((classType) => classType.minClass === `${className.split('-')[0]}-`);
-                    if(typeHover){
-                        hoverStyle += `${typeHover.styleName}: ${printStyle(typeHover, className, percent, checkInp, className.split('-')[1])};`
-                    }
+            if(getValues){
+                let hoverStyle = `.${newHoverClassName}:hover ${splitSelectorValue[0]} { \n`
+                const convertClass = getValues.split(',');
+
+                if(convertClass.length){
+                    convertClass.map((_className) => {
+                        const type = classTypes.find((classType) => !_className.indexOf(checkingImportant + classType.minClass));
+
+                        if (type) {
+                            const {checkInp, percent, newClassNem} = {
+                                checkInp: _className.includes('!') ? '!important' : '',
+                                percent: _className.includes('%') ? '%' : 'rem',
+                                newClassNem: _className.replace(/[!,%]/g, '')
+                            }
+                            const classCount = newClassNem.split('-')[1];
+                            const colorLength = _className.split('-');
+
+                            // hoverStyle += `
+                            //     ${checkType(colorLength[0] + '-')}: ${colour(colors[colorLength[1]], +colorLength[2] / 100)} ;
+                            // `
+
+
+                            if(colorLength.length === 3 && (_className.includes('c-') || _className.includes('bgc-'))){
+                                hoverStyle += `${type.styleName}: ${colour(colors[colorLength[1]], +colorLength[2] / 100)};\n`;
+                            } else {
+                                hoverStyle += `${type.styleName}: ${printStyle(type, _className, percent, checkInp, classCount)};\n`;
+                            }
+                        }
+                    })
+
+                    hoverStyle += '}';
+                    hovers.innerHTML = `${hovers.innerHTML} ${hoverStyle}`;
+                    item.classList.add(newHoverClassName);
                 }
 
 
-            })
-        }
-
-        hoverStyle += '}';
-        hovers.innerHTML = `${hovers.innerHTML} ${hoverStyle}`;
-        item.classList.add(newHoverClassName)
-
+                // console.log(convertClass)
+            }
+        })
     }
 }
 
