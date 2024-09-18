@@ -125,6 +125,88 @@ if (typeof colors === 'undefined') {
     document.head.appendChild(script)
 }
 
+const flexMappings = {
+    'sb': 'justify-content: space-between;',
+    's': 'align-items: start;',
+    'c': 'align-items: center;',
+    'se': 'justify-content: space-evenly;',
+    'sa': 'justify-content: space-around;',
+    'fs': 'align-items: flex-start;',
+    'fe': 'align-items: flex-end;',
+    'jc': 'justify-content: center;',
+    'jfs': 'justify-content: flex-start;',
+    'jfe': 'justify-content: flex-end;',
+    'as': 'align-items: stretch;',
+    'ae': 'align-items: end;'
+};
+
+const oldFlexClass = [];
+
+const flexElement = document.querySelectorAll('[class*="flex-"]');
+
+class ConvertFlex {
+
+    static String(flexString) {
+        if (!flexString.startsWith('flex-')) {
+            return 'Invalid flex shorthand';
+        }
+
+        const styles = flexString.slice(5).split('-');
+
+        let result = 'display: flex;';
+
+        styles.forEach(style => {
+            if (flexMappings[style]) {
+                result += `  ${flexMappings[style]}`;
+            } else {
+                result += `  /* Unknown shorthand: ${style} */\n`;
+            }
+        });
+
+        return result;
+    }
+
+    static StringWithMedia(flexString) {
+        let mediaQuery = '';
+        let result = '';
+
+        // Ստուգել մեդիա հարցման համար
+        const mediaKey = flexString.match(/^(flex-(sm|md|lg|xl|xxl)-)/);
+        if (mediaKey) {
+            const size = mediaKey[2];
+            mediaQuery = `@media (min-width: ${mediaSizes[size]}px) {\n .${flexString} {\n`;
+            flexString = flexString.replace(mediaKey[1], 'flex-'); // Հեռացնել մեդիա մասը
+        }
+
+        // Ստուգել, արդյոք սթրինգը սկսվում է 'flex-'֊ով
+        if (!flexString.startsWith('flex-')) {
+            return 'Invalid flex shorthand';
+        }
+
+        // Ստանալ գրելաձևերը
+        const styles = flexString.slice(5).split('-');
+
+        // Սկզբնական արդյունքը
+        result += 'display: flex;\n';
+
+        // Ստուգել և կոնվերտացնել յուրաքանչյուր գրելաձև
+        styles.forEach(style => {
+            if (flexMappings[style]) {
+                result += `  ${flexMappings[style]}\n`;
+            } else {
+                result += `  /* Unknown shorthand: ${style} */\n`;
+            }
+        });
+
+        // Եթե կա մեդիա հարցում, ավելացնել այն
+        if (mediaQuery) {
+            result = `${mediaQuery}  ${result.replace(/\n/g, '\n  ')}\n}\n}`;
+        }
+
+        return result;
+    }
+}
+
 
 allElem.forEach((item) => {
     item.classList.forEach((className) => {
@@ -156,6 +238,13 @@ function startConvertingClasses(className, item){
 
         if(hoverName){
             hoverName.forEach((className) => {
+
+                if(className.includes('flex-')){
+                    const flex = ConvertFlex.String(className);
+                    console.log(flex)
+                    hoverStyle += flex;
+                }
+
                 if(!className.includes('child:')){
                     const colorLength = className.split('-');
 
@@ -191,6 +280,8 @@ function startConvertingClasses(className, item){
             percent: className.includes('%') ? '%' : 'rem',
             newClassNem: className.replace(/[!,%]/g, '')
         }
+
+
         const classCount = newClassNem.split('-')[1];
         const classCountTwo = newClassNem.split('-')[2];
         if (+classCount > 5 || +classCountTwo > 5) {
@@ -235,11 +326,6 @@ function startChildHover(className, item){
                             }
                             const classCount = newClassNem.split('-')[1];
                             const colorLength = _className.split('-');
-
-                            // hoverStyle += `
-                            //     ${checkType(colorLength[0] + '-')}: ${colour(colors[colorLength[1]], +colorLength[2] / 100)} ;
-                            // `
-
 
                             if(colorLength.length === 3 && (_className.includes('c-') || _className.includes('bgc-'))){
                                 hoverStyle += `${type.styleName}: ${colour(colors[colorLength[1]], +colorLength[2] / 100)};\n`;
@@ -337,89 +423,6 @@ function chekWork(className) {
 
 
 // FLEX FUNCTIONS
-
-const flexMappings = {
-    'sb': 'justify-content: space-between;',
-    's': 'align-items: start;',
-    'c': 'align-items: center;',
-    'se': 'justify-content: space-evenly;',
-    'sa': 'justify-content: space-around;',
-    'fs': 'align-items: flex-start;',
-    'fe': 'align-items: flex-end;',
-    'jc': 'justify-content: center;',
-    'jfs': 'justify-content: flex-start;',
-    'jfe': 'justify-content: flex-end;',
-    'as': 'align-items: stretch;',
-    'ae': 'align-items: end;'
-};
-
-const oldFlexClass = [];
-
-const flexElement = document.querySelectorAll('[class*="flex-"]');
-
-class ConvertFlex {
-
-    static String(flexString) {
-        if (!flexString.startsWith('flex-')) {
-            return 'Invalid flex shorthand';
-        }
-
-        const styles = flexString.slice(5).split('-');
-
-        let result = 'display: flex;';
-
-        styles.forEach(style => {
-            if (flexMappings[style]) {
-                result += `  ${flexMappings[style]}`;
-            } else {
-                result += `  /* Unknown shorthand: ${style} */\n`;
-            }
-        });
-
-        return result;
-    }
-
-    static StringWithMedia(flexString) {
-        let mediaQuery = '';
-        let result = '';
-
-        // Ստուգել մեդիա հարցման համար
-        const mediaKey = flexString.match(/^(flex-(sm|md|lg|xl|xxl)-)/);
-        if (mediaKey) {
-            const size = mediaKey[2];
-            mediaQuery = `@media (min-width: ${mediaSizes[size]}px) {\n .${flexString} {\n`;
-            flexString = flexString.replace(mediaKey[1], 'flex-'); // Հեռացնել մեդիա մասը
-        }
-
-        // Ստուգել, արդյոք սթրինգը սկսվում է 'flex-'֊ով
-        if (!flexString.startsWith('flex-')) {
-            return 'Invalid flex shorthand';
-        }
-
-        // Ստանալ գրելաձևերը
-        const styles = flexString.slice(5).split('-');
-
-        // Սկզբնական արդյունքը
-        result += 'display: flex;\n';
-
-        // Ստուգել և կոնվերտացնել յուրաքանչյուր գրելաձև
-        styles.forEach(style => {
-            if (flexMappings[style]) {
-                result += `  ${flexMappings[style]}\n`;
-            } else {
-                result += `  /* Unknown shorthand: ${style} */\n`;
-            }
-        });
-
-        // Եթե կա մեդիա հարցում, ավելացնել այն
-        if (mediaQuery) {
-            result = `${mediaQuery}  ${result.replace(/\n/g, '\n  ')}\n}\n}`;
-        }
-
-        return result;
-    }
-}
-
 
 
 
