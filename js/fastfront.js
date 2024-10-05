@@ -1,10 +1,10 @@
 console.time();
 // CREATING STYLE TAGS
 const colorsHead = document.createElement('STYLE');
-const style = document.createElement('STYLE');
-    style.id = 'styles';
 const medias = document.createElement('STYLE');
     medias.id = 'media';
+const style = document.createElement('STYLE');
+    style.id = 'styles';
 const hovers = document.createElement('STYLE');
     hovers.id = 'hovers';
 
@@ -53,6 +53,7 @@ const costs = {
     paddingY: 'py-',
     flexGap: 'gap-',
     colPercent: 'colPercent-',
+    transition: 'trans-',
 }
 const allElem = document.querySelectorAll('*');
 const head = document.head;
@@ -110,11 +111,12 @@ const classTypes = [
     {minClass: costs.borderColor, styleName: 'border-color'},
     {minClass: costs.opacity, styleName: 'opacity'},
     {minClass: costs.zIndex, styleName: 'z-index'},
-    {minClass: costs.color, styleName: 'color'},
-    {minClass: costs.bgc, styleName: 'background-color'},
     {minClass: costs.bgBlur, styleName: 'backdrop-filter'},
+    {minClass: costs.bgc, styleName: 'background-color'},
+    {minClass: costs.color, styleName: 'color'},
     {minClass: costs.flexGap, styleName: 'gap'},
     {minClass: costs.colPercent, styleName: 'width'},
+    {minClass: costs.transition, styleName: 'transition'},
 ]
 
 const oldClasses = [];
@@ -228,10 +230,6 @@ function startConvertingClasses(className, item){
         const childValue = className.slice(startIndex, endIndex + 1);
         const hoverName = className.replace(childValue + ']', '').replace(/hover:/g, '').replace(/[\]\[]/g, '').split(',');
         const newHoverClassName = `${randomText()}_fastfront_${randomText()}`;
-        const {checkInp, percent} = {
-            checkInp: className.includes('!') ? '!important' : '',
-            percent: className.includes('%') ? '%' : 'rem',
-        }
         startChildHover(className, item)
 
         let hoverStyle = `.${newHoverClassName}:hover{`
@@ -241,19 +239,25 @@ function startConvertingClasses(className, item){
 
                 if(className.includes('flex-')){
                     const flex = ConvertFlex.String(className);
-                    console.log(flex)
                     hoverStyle += flex;
+                    return;
                 }
 
                 if(!className.includes('child:')){
                     const colorLength = className.split('-');
+                    const {checkInp, percent} = {
+                        checkInp: className.includes('!') ? '!important' : '',
+                        percent: className.includes('%') ? '%' : 'rem',
+                    }
+
 
                     if(colorLength.length === 3 && (className.includes('c-')  || className.includes('bgc-'))){
                         hoverStyle += `
                         ${checkType(colorLength[0] + '-')}: ${colour(colors[colorLength[1]], +colorLength[2] / 100)} ;
                     `
                     } else {
-                        const typeHover = classTypes.find((classType) => classType.minClass === `${className.split('-')[0]}-`);
+                        const typeHover = classTypes.find((classType) => `${className.split('-')[0]}-`.includes(classType.minClass));
+
                         if(typeHover){
                             hoverStyle += `${typeHover.styleName}: ${printStyle(typeHover, className, percent, checkInp, className.split('-')[1])};`
                         }
@@ -305,7 +309,6 @@ function startChildHover(className, item){
     if(childValue.length){
         const newHoverClassName = `${randomText()}_fastfront_${randomText()}`;
 
-
         childValue.forEach((classValue) => {
             const splitSelectorValue = classValue.split(':');
             const getValues = splitSelectorValue[1]?.replace('[', '').replace(']', '');
@@ -316,7 +319,7 @@ function startChildHover(className, item){
 
                 if(convertClass.length){
                     convertClass.map((_className) => {
-                        const type = classTypes.find((classType) => !_className.indexOf(checkingImportant + classType.minClass));
+                        const type = classTypes.find((classType) => _className.includes(classType.minClass));
 
                         if (type) {
                             const {checkInp, percent, newClassNem} = {
@@ -380,6 +383,8 @@ function printStyle(type, className, percent, checkInp, classCount) {
     switch (type.minClass) {
         case costs.fw:
             return classCount;
+        case costs.transition:
+            return `${classCount}ms`;
         case costs.color:
             if (colors[classCount]) {
                 const _color = colors[classCount];
@@ -402,23 +407,23 @@ function printStyle(type, className, percent, checkInp, classCount) {
             }
             return '';
         case costs.bgBlur:
-            return `blur(${percentOrRem})`;
+            return `blur(${percentOrRem}) ${checkInp}`;
         case costs.paddingY:
-            return `${percentOrRem} 0`;
+            return `${percentOrRem} 0 ${checkInp}`;
         case costs.zIndex:
-            return classCount;
+            return `${classCount} ${checkInp}`;
         case costs.opacity:
-            return +classCount / 10;
+            return `${+classCount / 10} ${checkInp}`;
         case costs.colPercent:
-            return `${classCount}%`;
+            return `${classCount}%  ${checkInp}`;
         default:
-            return `${percentOrRem}`;
+            return `${percentOrRem}  ${checkInp}`;
     }
 }
 
 
 function chekWork(className) {
-    return className.includes('!') ? '!' : className.includes('%') ? '%' : '';
+    return className.includes('!') ? '!important' : className.includes('%') ? '%' : '';
 }
 
 
@@ -438,10 +443,10 @@ function startWorkingFlex(className){
     if(!checkFlex){
         const mediaKey = className.match(/^(flex-(sm|md|lg|xl|xxl)-)/);
         if(mediaKey){
-            style.innerHTML = `${style.innerHTML} ${ConvertFlex.StringWithMedia(className)}`;
+            medias.innerHTML = `${medias.innerHTML} ${ConvertFlex.StringWithMedia(className)}`;
         } else {
             let css = `.${className}{${ConvertFlex.String(className)}}`;
-            medias.innerHTML = `${medias.innerHTML} ${css}`;
+            style.innerHTML = `${style.innerHTML} ${css}`;
         }
         oldFlexClass.push(className);
     }
@@ -453,28 +458,14 @@ const targetElement = document.body;
 const callback = (mutationsList) => {
     for (const mutation of mutationsList) {
         if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-            // Նշված է թե որ էլեմենտի վրա է class փոփոխվել
             const changedElement = mutation.target;
 
-            // Ստուգում ենք, թե ինչ class է ավելացվել կամ հեռացվել
             const classList = changedElement.className.split(/\s+/);
             const oldClassList = mutation.oldValue ? mutation.oldValue.split(/\s+/) : [];
 
-            // Գտնել ավելացված class-երը
             const addedClasses = classList.filter(cls => !oldClassList.includes(cls));
             const removedClasses = oldClassList.filter(cls => !classList.includes(cls));
 
-            // // Վերադարձնել ավելացված class-երը
-            // if (addedClasses.length > 0) {
-            //     console.log('Added class(es):', addedClasses);
-            // }
-
-            // // Վերադարձնել հեռացված class-երը
-            // if (removedClasses.length > 0) {
-            //     console.log('Removed class(es):', removedClasses);
-            // }
-
-            // Այստեղ կարող եք կատարել ձեր ցանկալի գործողությունները
             for (const addedClass of addedClasses) {
                 if(addedClass.includes('flex-')){
                     startWorkingFlex(addedClasses)

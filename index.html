@@ -40,7 +40,7 @@
 
 <div class="container mb-200">
   <div class="row h-100">
-    <div class="col-3 border-end h-100 pt-20 position-sticky top-0">
+    <div class="col-3 border-end vh-100 pt-20 position-sticky top-0">
       <div class="border-bottom h-40 flex-c-jfs">
         <a href="#get-started" class="c-black w-100 hover:[c-blue]">
           <i class="fa-solid fa-house me-2"></i>
@@ -51,6 +51,12 @@
         <a href="#flex" class="c-black w-100 hover:[c-blue]">
           <i class="fa-solid fa-house me-2"></i>
           Flex
+        </a>
+      </div>
+      <div class="border-bottom h-40 flex-c-jfs">
+        <a href="#background" class="c-black w-100 hover:[c-blue]">
+          <i class="fa-solid fa-house me-2"></i>
+          Background
         </a>
       </div>
     </div>
@@ -78,15 +84,25 @@
         </p>
         <div class="row justify-content-between">
           <div class="col-6">
-            <div
-                class="!bc-white !bc-md-yellow c-white c-md-yellow fs-30 border w-100 h-200 p-30 br-30 bgc-blue bgc-md-white hover:[bgc-yellow,c-white] trans-300 d-flex justify-content-center align-items-center">
-              Example
+            <div class="border bc-blue br-10 p-3 flex-jfs-s hover:[!bc-black] trans-300">
+              <img src="images/image-example-fastfront.png" alt="image example" class="w-150 me-2 br-10">
+              <div>
+                <h4 class="c-black fs-20">Lorem ipsum dolor sit amet</h4>
+                <p class="fs-15 c-black-600 lh-18">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. A atque consequuntur deleniti distinctio dolore eius illo inventore maiores maxime modi natus nisi nobis placeat ratione, similique unde veniam voluptates voluptatum!
+                </p>
+              </div>
             </div>
           </div>
           <div class="col-6">
-            <div
-                class="!bc-white !bc-md-yellow c-white c-md-yellow fs-30 border w-100 h-200 p-30 br-30 bgc-blue bgc-md-white hover:[bgc-yellow,c-white,h-180] trans-300 d-flex justify-content-center align-items-center">
-              Example Two
+            <div class="border bc-blue br-10 p-3 flex-jfs-s trans-300 hover:[!bc-black,child:[img:[w-170]|h4:[fs-25]]]">
+              <img src="images/image-example-fastfront.png" alt="image example" class="w-150 me-2 br-10 trans-300">
+              <div>
+                <h4 class="c-black fs-20 trans-300">Hover and child</h4>
+                <p class="fs-15 c-black-600 lh-18">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. A atque consequuntur deleniti distinctio dolore eius illo inventore maiores maxime modi natus nisi nobis placeat ratione, similique unde veniam voluptates voluptatum!
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -94,10 +110,15 @@
           <code class="language-html">
             <xmp>
               <div class="col-6">
-                  <div
-                      class="!bc-white !bc-md-yellow c-white c-md-yellow fs-30 border w-100 h-200 p-30 br-30 bgc-blue bgc-md-white hover:[bgc-yellow,c-white] trans-300 d-flex justify-content-center align-items-center">
-                        Example
+                <div class="border bc-blue br-10 p-3 flex-jfs-s hover:[!bc-black] trans-300">
+                  <img src="images/image-example-fastfront.png" alt="image example" class="w-150 me-2 br-10">
+                  <div>
+                    <h4 class="c-black fs-20">Lorem ipsum dolor sit amet</h4>
+                    <p class="fs-15 c-black-600 lh-18">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. A atque consequuntur deleniti distinctio dolore eius illo inventore maiores maxime modi natus nisi nobis placeat ratione, similique unde veniam voluptates voluptatum!
+                    </p>
                   </div>
+                </div>
               </div>
             </xmp>
           </code>
@@ -163,6 +184,85 @@
             </div>
           </div>
         </div>
+
+
+
+        <div class="c-black mt-100" id="background">
+          <h1 class="trans-300">#Background</h1>
+        </div>
+
+        <div class="mt-4">
+          <ul>
+            <li><b>bgc-</b> => background-color</li>
+          </ul>
+          <div class="ps-20 mt-4">
+            <h4>Example</h4>
+
+            <div class="row mt-4">
+              <div class="col-6">
+                <div class="w-100 h-80 br-10 bgc-black c-white flex-jc-c hover:[fs-25,bgc-blue] trans-300">
+                  Text
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="w-100 h-80 br-10 bgc-black c-white flex-jc-c hover:[fs-25,bgc-yellow] trans-300">
+                  Text
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <pre>
+          <code class="language-html">
+            <xmp>
+              <div class="w-100 h-80 br-10 ---->>> bgc-black <<<----- c-white flex-jc-c hover:[fs-25,bgc-blue] trans-300">
+                  Text
+              </div>
+            </xmp>
+          </code>
+        </pre>
+        </div>
+
+        <div class="c-black mt-100" id="color">
+          <h1 class="trans-300">#Color</h1>
+        </div>
+
+        <div class="mt-4">
+          <ul>
+            <li><b>c-</b> => color</li>
+          </ul>
+          <div class="ps-20 mt-4">
+            <h4>Example</h4>
+
+            <div class="row mt-4">
+              <div class="col-6">
+                <div class="w-100 h-80 br-10 bgc-black c-white flex-jc-c hover:[fs-25,c-blue] trans-300">
+                  Text
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="w-100 h-80 br-10 bgc-black c-white flex-jc-c hover:[fs-25,c-yellow] trans-300">
+                  Text
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <pre>
+          <code class="language-html">
+            <xmp>
+              <div class="w-100 h-80 br-10 bgc-black ---->>> c-white <<<---- flex-jc-c hover:[fs-25,c-blue] trans-300">
+                  Text
+              </div>
+            </xmp>
+          </code>
+        </pre>
+        </div>
+
       </div>
     </div>
   </div>
