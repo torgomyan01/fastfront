@@ -59,6 +59,24 @@
           Background
         </a>
       </div>
+      <div class="border-bottom h-40 flex-c-jfs">
+        <a href="#color" class="c-black w-100 hover:[c-blue]">
+          <i class="fa-solid fa-house me-2"></i>
+          Color
+        </a>
+      </div>
+      <div class="border-bottom h-40 flex-c-jfs">
+        <a href="#font-weight" class="c-black w-100 hover:[c-blue]">
+          <i class="fa-solid fa-house me-2"></i>
+          Font-weight
+        </a>
+      </div>
+      <div class="border-bottom h-40 flex-c-jfs">
+        <a href="#z-index" class="c-black w-100 hover:[c-blue]">
+          <i class="fa-solid fa-house me-2"></i>
+          Z-index
+        </a>
+      </div>
     </div>
     <div class="col-9 pt-20">
       <div>
@@ -79,6 +97,15 @@
           Also, we have to write less CSS, which will contribute to the fast loading of the site, because it works more
           dynamically and there is no need to write CSS manually.
         </p>
+        <p class="c-black">
+          First let's check the marker property, there are 2 markers at the time of drawing,
+        </p>
+        <p class="c-black">
+          <b>!</b> = !important, It will add !important at the end, eg !w-100 = width: 100px !important;
+        </p>
+        <p class="c-black">
+          <b>%</b> = percentage, that is, the generated value will be equal to %, for example, %w-25 = width: 25%
+        </p>
         <p class="c-black fw-bold">
           Now we will present a small example
         </p>
@@ -89,7 +116,9 @@
               <div>
                 <h4 class="c-black fs-20">Lorem ipsum dolor sit amet</h4>
                 <p class="fs-15 c-black-600 lh-18">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. A atque consequuntur deleniti distinctio dolore eius illo inventore maiores maxime modi natus nisi nobis placeat ratione, similique unde veniam voluptates voluptatum!
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. A atque consequuntur deleniti distinctio
+                  dolore eius illo inventore maiores maxime modi natus nisi nobis placeat ratione, similique unde veniam
+                  voluptates voluptatum!
                 </p>
               </div>
             </div>
@@ -100,7 +129,9 @@
               <div>
                 <h4 class="c-black fs-20 trans-300">Hover and child</h4>
                 <p class="fs-15 c-black-600 lh-18">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. A atque consequuntur deleniti distinctio dolore eius illo inventore maiores maxime modi natus nisi nobis placeat ratione, similique unde veniam voluptates voluptatum!
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. A atque consequuntur deleniti distinctio
+                  dolore eius illo inventore maiores maxime modi natus nisi nobis placeat ratione, similique unde veniam
+                  voluptates voluptatum!
                 </p>
               </div>
             </div>
@@ -152,7 +183,8 @@
             <h4>Example</h4>
             <div class="row mt-4">
               <div class="col-6">
-                <div class="w-100 border br-20 flex-s-jfs flex-column hover:[br-30,child:[h5:[c-red]|.name:[c-red]]] overflow-hidden trans">
+                <div
+                    class="w-100 border br-20 flex-s-jfs flex-column hover:[br-30,child:[h5:[c-red]|.name:[c-red]]] overflow-hidden trans">
                   <img src="images/image-example-fastfront.png" alt="image-example-fastfront" height="500" width="500"
                        class="w-100 h-auto br-20 roundLeftBottom-0 roundRightBottom-0">
                   <div class="p-10 flex-jfs-s flex-column">
@@ -167,7 +199,8 @@
                 </div>
               </div>
               <div class="col-6">
-                <div class="w-100 border br-20 flex-s-jfs flex-column hover:[br-30,child:[h5:[c-red]|.name:[c-red]]] overflow-hidden trans">
+                <div
+                    class="w-100 border br-20 flex-s-jfs flex-column hover:[br-30,child:[h5:[c-red]|.name:[c-red]]] overflow-hidden trans">
                   <img src="images/image-example-fastfront.png" alt="image-example-fastfront" height="500" width="500"
                        class="w-100 h-auto br-20 roundLeftBottom-0 roundRightBottom-0">
                   <div class="p-10">
@@ -186,14 +219,13 @@
         </div>
 
 
-
         <div class="c-black mt-100" id="background">
           <h1 class="trans-300">#Background</h1>
         </div>
 
         <div class="mt-4">
           <ul>
-            <li><b>bgc-</b> => background-color</li>
+            <li><b>bgc-</b> => background-color:</li>
           </ul>
           <div class="ps-20 mt-4">
             <h4>Example</h4>
@@ -217,7 +249,8 @@
           <pre>
           <code class="language-html">
             <xmp>
-              <div class="w-100 h-80 br-10 ---->>> bgc-black <<<----- c-white flex-jc-c hover:[fs-25,bgc-blue] trans-300">
+              <div
+                  class="w-100 h-80 br-10 ---->>> bgc-black <<<----- c-white flex-jc-c hover:[fs-25,bgc-blue] trans-300">
                   Text
               </div>
             </xmp>
@@ -231,7 +264,7 @@
 
         <div class="mt-4">
           <ul>
-            <li><b>c-</b> => color</li>
+            <li><b>c-</b> => color:</li>
           </ul>
           <div class="ps-20 mt-4">
             <h4>Example</h4>
@@ -263,7 +296,71 @@
         </pre>
         </div>
 
+        <div class="c-black mt-100" id="font-weight">
+          <h1 class="trans-300">#Font-weight</h1>
+        </div>
+        <div class="mt-4">
+          <ul>
+            <li><b>fw-</b> => font-weight:</li>
+          </ul>
+          <div class="ps-20 mt-4">
+            <h4>Example</h4>
+
+            <div class="row mt-4">
+              <div class="col-6">
+                <div class="w-100 h-80 br-10 bgc-black c-white flex-jc-c hover:[fs-25,fw-700] trans-300">
+                  Text
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <div class="mt-4">
+          <pre>
+          <code class="language-html">
+            <xmp>
+              <div class="w-100 h-80 br-10 bgc-black c-white flex-jc-c hover:[fs-25,---->>>fw-700<<<----] trans-300">
+                  Text
+              </div>
+            </xmp>
+          </code>
+        </pre>
       </div>
+
+      <div class="c-black mt-100" id="z-index">
+        <h1 class="trans-300">#Z-index</h1>
+      </div>
+        <div class="mt-4">
+          <ul>
+            <li><b>z-</b> => z-index:</li>
+          </ul>
+          <div class="ps-20 mt-4">
+            <h4>Example</h4>
+
+            <div class="row mt-4">
+              <div class="col-6">
+                <div class="w-100 h-80 br-10 bgc-black c-white flex-jc-c hover:[child:[.span-two:[z-1]]] trans-300 position-relative">
+                  <span class="w-85 h-25 position-absolute %left-48 bgc-red ps-10 pe-10 br-8 span-two"></span>
+                  <span class="position-absolute %left-43">z-index</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4">
+          <pre>
+          <code class="language-html">
+            <xmp>
+              <div class="w-100 h-80 br-10 bgc-black c-white flex-jc-c hover:[child:[.span-two:[--->>>z-1<<<---]]] trans-300 position-relative">
+                  <span class="w-85 h-25 position-absolute %left-48 bgc-red ps-10 pe-10 br-8 span-two"></span>
+                  <span class="position-absolute %left-43">z-index</span>
+              </div>
+            </xmp>
+          </code>
+        </pre>
+        </div>
+
+
     </div>
   </div>
 </div>

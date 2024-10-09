@@ -75,6 +75,7 @@ const sizes = [
 ];
 
 const classTypes = [
+    {minClass: 'fw-', styleName: 'font-weight'},
     {minClass: 'h-', styleName: 'height'},
     {minClass: 'mh-', styleName: 'max-height'},
     {minClass: 'minh-', styleName: 'min-height'},
@@ -107,7 +108,6 @@ const classTypes = [
     {minClass: 'top-', styleName: 'top'},
     {minClass: 'right-', styleName: 'right'},
     {minClass: 'bottom-', styleName: 'bottom'},
-    {minClass: 'fw-', styleName: 'font-weight'},
     {minClass: costs.borderColor, styleName: 'border-color'},
     {minClass: costs.opacity, styleName: 'opacity'},
     {minClass: costs.zIndex, styleName: 'z-index'},
