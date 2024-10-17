@@ -2,21 +2,19 @@ console.time();
 // CREATING STYLE TAGS
 const colorsHead = document.createElement('STYLE');
 const medias = document.createElement('STYLE');
-    medias.id = 'media';
+medias.id = 'media';
 const style = document.createElement('STYLE');
-    style.id = 'styles';
+style.id = 'styles';
 const hovers = document.createElement('STYLE');
-    hovers.id = 'hovers';
+hovers.id = 'hovers';
 
 
 const colors = {
     white: '#FFFFFF',
-    blackTitle: '#002033',
-    black: '#232323',
-    green: '#2E9F65',
-    red: '#EB5757',
-    yellow: '#FFA10A',
-    blue: '#2e62fa'
+    black: '#181E34',
+    grey: '#DFDFDF',
+    pinkGray: '#F0F1FF',
+    blue: '#3089FF'
 }
 
 
@@ -50,7 +48,6 @@ const costs = {
     zIndex: 'z-',
     opacity: 'op-',
     borderColor: 'bc-',
-    paddingY: 'py-',
     flexGap: 'gap-',
     colPercent: 'colPercent-',
     transition: 'trans-',
@@ -93,7 +90,6 @@ const classTypes = [
     {minClass: 'ps-', styleName: 'padding-left'},
     {minClass: 'pt-', styleName: 'padding-top'},
     {minClass: 'pb-', styleName: 'padding-bottom'},
-    {minClass: costs.paddingY, styleName: 'padding'},
     {minClass: 'p-', styleName: 'padding'},
     // FONT SIZE
     {minClass: 'fs-', styleName: 'font-size'},
@@ -172,7 +168,6 @@ class ConvertFlex {
         let mediaQuery = '';
         let result = '';
 
-        // Ստուգել մեդիա հարցման համար
         const mediaKey = flexString.match(/^(flex-(sm|md|lg|xl|xxl)-)/);
         if (mediaKey) {
             const size = mediaKey[2];
@@ -180,18 +175,14 @@ class ConvertFlex {
             flexString = flexString.replace(mediaKey[1], 'flex-'); // Հեռացնել մեդիա մասը
         }
 
-        // Ստուգել, արդյոք սթրինգը սկսվում է 'flex-'֊ով
         if (!flexString.startsWith('flex-')) {
             return 'Invalid flex shorthand';
         }
 
-        // Ստանալ գրելաձևերը
         const styles = flexString.slice(5).split('-');
 
-        // Սկզբնական արդյունքը
         result += 'display: flex;\n';
 
-        // Ստուգել և կոնվերտացնել յուրաքանչյուր գրելաձև
         styles.forEach(style => {
             if (flexMappings[style]) {
                 result += `  ${flexMappings[style]}\n`;
@@ -200,7 +191,6 @@ class ConvertFlex {
             }
         });
 
-        // Եթե կա մեդիա հարցում, ավելացնել այն
         if (mediaQuery) {
             result = `${mediaQuery}  ${result.replace(/\n/g, '\n  ')}\n}\n}`;
         }
@@ -212,9 +202,7 @@ class ConvertFlex {
 
 allElem.forEach((item) => {
     item.classList.forEach((className) => {
-
         startConvertingClasses(className, item)
-
     })
     if (String(item.className).includes('!') || String(item.className).includes('%')) {
         item.className = item.className.replace(/[!,%]/g, '')
@@ -223,6 +211,7 @@ allElem.forEach((item) => {
 
 
 function startConvertingClasses(className, item){
+
     if(className.includes('hover')){
         const startIndex = className.indexOf('child:')
         const endIndex = className.indexOf(']]');
@@ -276,6 +265,7 @@ function startConvertingClasses(className, item){
 
 
     const checkingImportant = chekWork(className);
+
     const type = classTypes.find((classType) => !className.indexOf(checkingImportant + classType.minClass) && !oldClasses.includes(className));
 
     if (type && !className.includes('hover:')) {
@@ -284,6 +274,8 @@ function startConvertingClasses(className, item){
             percent: className.includes('%') ? '%' : 'rem',
             newClassNem: className.replace(/[!,%]/g, '')
         }
+
+
 
 
         const classCount = newClassNem.split('-')[1];
@@ -369,8 +361,15 @@ function startCreateStyle(classCountTwo, type, newClassNem, percent, checkInp, c
                 medias.innerHTML = `${medias.innerHTML} @media (min-width: ${_size.size}px){.${newClassNem}{${type.styleName}: ${printStyle(type, className, percent, checkInp, classCountTwo)}}}`;
             }
         })
+
+        if(!!+classCount){
+            oldClasses.push(newClassNem);
+            medias.innerHTML = `${medias.innerHTML} @media (min-width: ${classCount}px){.${newClassNem}{${type.styleName}: ${printStyle(type, className, percent, checkInp, classCountTwo)}}}`;
+        }
     } else {
+
         if (newClassNem.includes(type.minClass) && !oldClasses.includes(newClassNem)) {
+
             oldClasses.push(newClassNem);
             style.innerHTML = `${style.innerHTML} .${newClassNem}{${type.styleName}: ${printStyle(type, className, percent, checkInp, classCount)}}`;
         }
@@ -379,7 +378,9 @@ function startCreateStyle(classCountTwo, type, newClassNem, percent, checkInp, c
 
 
 function printStyle(type, className, percent, checkInp, classCount) {
+
     const percentOrRem = `${className.includes('%') ? classCount : classCount / 16}${percent} ${checkInp}`;
+
     switch (type.minClass) {
         case costs.fw:
             return classCount;
@@ -408,8 +409,6 @@ function printStyle(type, className, percent, checkInp, classCount) {
             return '';
         case costs.bgBlur:
             return `blur(${percentOrRem}) ${checkInp}`;
-        case costs.paddingY:
-            return `${percentOrRem} 0 ${checkInp}`;
         case costs.zIndex:
             return `${classCount} ${checkInp}`;
         case costs.opacity:
